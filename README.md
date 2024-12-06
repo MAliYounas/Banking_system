@@ -44,11 +44,20 @@ void account_opening_current(){
     string password;
     string line;
     int account_no;
+    ask:
     cout<<"Enter Your Name : ";
     cin.ignore();
     getline(cin,name);
     cout<<"Enter your cnic no. : ";
     cin>>cnic;
+    cout<<"Password should be of single word if with spaces the first will be considered but rest will be eliminated"<<endl<<endl;
+    cout<<"Enter your Password : ";
+    cin>>password;
+    if (name.empty() || cnic.empty() || password.empty()){
+        cout<<"Invalid Data"<<endl;
+        goto ask;
+    }
+    if (!name.empty() && !cnic.empty() & !password.empty()){
     fstream info;
     info.open("information.txt",ios::out|ios::app);
     info<<name<<endl;
@@ -65,12 +74,10 @@ void account_opening_current(){
     opening<<account_no<<endl;
     opening.close();
     cout<<"Your account no. is : "<<(account_no_start+no_of_account)<<endl;
-    cout<<"Password should be of single word if with spaces the first will be considered but rest will be eliminated"<<endl<<endl;
-    cout<<"Enter your Password : ";
-    cin>>password;
-    fstream passw("passwords.txt",ios::out|ios::app);
+     fstream passw("passwords.txt",ios::out|ios::app);
     passw<<password<<endl;
     passw.close();
+    }
     cout<<"Thanks for openning an account <3"<<endl;
 
 }
@@ -116,6 +123,7 @@ void tax_calculator(){
     cout<<"Enter your Yearly income in pkr : ";
     cin>>income;
     cout<<endl;
+    cout<<fixed<<setprecision(3);
     if(income>0 &&income<=600000){
         cout<<"You are exempted from tax system and have to pay no taxes ."<<endl;
     }
@@ -144,13 +152,14 @@ void tax_calculator(){
     }
     ask:
      cout<<"Do you want to perform further calculation (For Yes Enter Y For Exit enter N) : ";cin>>continu;
-     if (continu =='N'){
-        return;
+     if(continu =='N' || continu=='Y'){
+        goto loop;
      }
      if(continu !='N' || continu!='Y'){
         cout<<"Enter a valid entry ! "<<endl;
         goto ask;
      }
+     loop:;
     }while(continu=='Y');
 }
 void emi_calculator(){
@@ -166,6 +175,7 @@ cout<<"Enter the total loan that you want : "; cin>>loan; cout<<endl;
 cout<<"For how many years you are getting it : "; cin>>years; cout<<endl;
 cout<<"At what intrest rate are you getting it : ";cin>>intrest;
 cout<<"If EMI is on flat intrest (Enter F) and if on Reducing balance (Enter R) : ";cin>>loan_type; cout<<endl;
+cout<<fixed<<setprecision(3);
 switch(loan_type){
     case 'F':{
         total_intrest=loan*intrest*years;
@@ -185,17 +195,23 @@ switch(loan_type){
         cout<<"Your monthly EMI is going to be : "<<emi<<" pkr."<<endl;
         break;
     }
-    }
+        }       
+    ask:
     cout<<"Do you want to perform further calculation (For Yes Enter Y For Exit enter N) : ";cin>>continu;
+    if(continu =='N' || continu=='Y'){
+        goto loop;
+     }
+     if(continu !='N' || continu!='Y'){
+        cout<<"Enter a valid entry ! "<<endl;
+        goto ask;
+     }
+     loop:;
 }while(continu=='Y');
     return;
     }
 
 void apply_for_loan(){
 
-}
-void exit(){
-    
 }
 int main(){
     int account_opening[100];
@@ -247,14 +263,11 @@ int main(){
             discounts();
             break;
         }
-        default:
-            break;
-        }
-    
+        case 'E':{
         closeinternal=false;
+        }
+    }
     }
 
-
     return 0;
-
     }
