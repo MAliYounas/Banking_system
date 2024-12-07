@@ -34,7 +34,36 @@ char menu_internal(){
     return option_inter;
 }
 void login(){
-
+    string username;
+    string password;
+    string line;
+    int count=0;
+    ask:
+    cout<<"Enter Your Username : ";
+    cin>>username;
+    cout<<endl;
+    cin.ignore();
+    cout<<"Enter your password : ";
+    cin>>password;
+    cout<<endl;
+     fstream passw;
+     passw.open("passwords_username.txt",ios::in);
+     while(getline(passw,line)){
+        if(username==line){
+            count++;
+        }
+        if(password==line ){
+            count++;
+        }
+     }
+     passw.close();
+    if(count<2){
+        cout<<"Data is invalid .Enter correct Data"<<endl;
+        goto ask;
+    }
+        if(count==2){
+            return ;
+        }
 }
 void account_opening_current(){
     string name;
@@ -43,6 +72,7 @@ void account_opening_current(){
     int account_no_start=111111;
     string password;
     string line;
+    string username;
     int account_no;
     ask:
     cout<<"Enter Your Name : ";
@@ -50,14 +80,17 @@ void account_opening_current(){
     getline(cin,name);
     cout<<"Enter your cnic no. : ";
     cin>>cnic;
+    cout<<"Username should be of single word if with spaces the first will be considered but rest will be eliminated"<<endl<<endl;
+    cout<<"Enter your Username : ";
+    cin>>username;
     cout<<"Password should be of single word if with spaces the first will be considered but rest will be eliminated"<<endl<<endl;
     cout<<"Enter your Password : ";
     cin>>password;
-    if (name.empty() || cnic.empty() || password.empty()){
+    if (name.empty() || cnic.empty() || password.empty()||username.empty()){
         cout<<"Invalid Data"<<endl;
         goto ask;
     }
-    if (!name.empty() && !cnic.empty() & !password.empty()){
+    if (!name.empty() && !cnic.empty() && !password.empty() && !username.empty()){
     fstream info;
     info.open("information.txt",ios::out|ios::app);
     info<<name<<endl;
@@ -74,7 +107,9 @@ void account_opening_current(){
     opening<<account_no<<endl;
     opening.close();
     cout<<"Your account no. is : "<<(account_no_start+no_of_account)<<endl;
-     fstream passw("passwords.txt",ios::out|ios::app);
+     fstream passw;
+     passw.open("passwords_username.txt",ios::out|ios::app);
+    passw<<username<<endl;
     passw<<password<<endl;
     passw.close();
     }
