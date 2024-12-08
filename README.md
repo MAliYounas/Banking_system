@@ -6,6 +6,8 @@ This is a user friendly banking system to make  banking services easier.
 #include<cmath>
 #include<iomanip>
 using namespace std;
+string filepath1="initial";
+string filepath2="initial";
 char menu_external(){
     char option_exter;
     cout<<endl<<endl<<endl<<endl;
@@ -22,11 +24,12 @@ char menu_internal(){
     cout<<endl<<endl<<endl;
     cout<<"                                     --------------------------------------------------------------------------------------        "<<endl<<endl;
     cout<<"                                                                     Show Balance (Enter:B)"<<endl<<endl;
+    cout<<"                                                                    Deposit Money (Enter : D)"<<endl<<endl;
     cout<<"                                           Share Account No.(Enter:Q)                        View Statment (Enter:V)"<<endl<<endl;
     cout<<"                                       Send Money (Enter:S)                                     Bills & Top up (Enter:K)"<<endl<<endl;
     cout<<"                                       Debit Card (Enter:X)                                     Zakat & Sadkat (Enter:Z)"<<endl<<endl;
     cout<<"                                       Tax calculatore(Enter:T)                                 Emi Culculator (Enter:L)"<<endl<<endl;
-    cout<<"                                                                      Dicounts (Enter:D)"<<endl<<endl;
+    cout<<"                                                                      Dicounts (Enter:I)"<<endl<<endl;
     cout<<"                                                                      Feedback (Enter:F)"<<endl<<endl;
     cout<<"                                                                      Exit (Enter:E)"<<endl<<endl;
     cout<<"                                         Enter what you want to choose :"; cin>>option_inter; cout<<endl<<endl;
@@ -66,7 +69,7 @@ array<string, 2> login(){
             array<string, 2> user_data = {username, password};
             return user_data;
         }
-    
+        
 }
 void account_opening_current(){
     string name;
@@ -120,6 +123,29 @@ void account_opening_current(){
 
 }
 void depositing(){
+    int amount_depositing;
+    string line;
+    int count=0;
+    cout<<"Enter The Amount That You Want to Deposit : ";
+    cin>>amount_depositing;
+    cout<<endl;
+    fstream my_file1;
+    my_file1.open(filepath1,ios::in);
+             if(!my_file1.is_open()){
+                cout<<"Failed to Open File "<<endl;
+             }
+             while(getline(my_file1,line)){
+                count++;
+             }
+             if(count==0){
+                line="0";
+             }
+             my_file1.close();
+            amount_depositing=stoi(line)+amount_depositing;
+            my_file1.open(filepath1,ios::out);
+            my_file1<<amount_depositing;
+             my_file1.close();
+             cout<<"Thanks For Depositing <3 "<<endl;
 
 }
 void withdraw(){
@@ -133,7 +159,20 @@ void account_past_transaction(){
 }
 
 void show_balance(){
-
+    string line;
+    int count=0;
+    cout<<"Your Current Balance is : ";
+    fstream my_file1;
+     my_file1.open(filepath1,ios::in);
+            while(getline(my_file1,line)){
+                count++;
+            }
+            if(count==0){
+                line='0';
+            }
+            cout<<line;
+             my_file1.close();
+             cout<<endl<<endl;
 }
 void password_change(){
 
@@ -261,6 +300,21 @@ int main(){
         {
         case 'L':{
              user_data=login();
+             filepath1=(user_data[0] +"_current_Balance.txt");
+             fstream my_file1;
+             my_file1.open(filepath1);
+             if(!my_file1.is_open()){
+                cout<<"Failed to Open File "<<endl;
+             }
+             my_file1.close();
+             filepath2=(user_data[0] +"_balance_History.txt");
+             fstream my_file2;
+             my_file2.open(filepath2);
+             if(!my_file2.is_open()){
+                cout<<"Failed to Open File "<<endl;
+             }
+             my_file2.close();
+
             close_external=false;
             break;
         }
@@ -279,6 +333,12 @@ int main(){
         options_internal=menu_internal();
         switch (options_internal)
         {
+        case 'D' :{
+                depositing();
+            }
+        case 'B':{
+            show_balance();
+        }
          case 'Q':{
                 share_account_number();
                 break;
@@ -295,7 +355,7 @@ int main(){
             emi_calculator();
             break;
         }
-        case 'D':{
+        case 'I':{
             discounts();
             break;
         }
