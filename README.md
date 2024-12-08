@@ -33,10 +33,11 @@ char menu_internal(){
     cout<<"                                     --------------------------------------------------------------------------------------        "<<endl<<endl;
     return option_inter;
 }
-void login(){
+array<string, 2> login(){
     string username;
     string password;
     string line;
+    string user_data[2];
     int count=0;
     ask:
     cout<<"Enter Your Username : ";
@@ -62,8 +63,10 @@ void login(){
         goto ask;
     }
         if(count==2){
-            return ;
+            array<string, 2> user_data = {username, password};
+            return user_data;
         }
+    
 }
 void account_opening_current(){
     string name;
@@ -249,17 +252,15 @@ void apply_for_loan(){
 
 }
 int main(){
-    int account_opening[100];
-    float deposits[100];
-    string password[100];
     bool  close_external=true;
+    array<string, 2> user_data;
     do{
         char option_external;
         option_external = menu_external();
         switch (option_external)
         {
         case 'L':{
-            login();
+             user_data=login();
             close_external=false;
             break;
         }
@@ -303,6 +304,5 @@ int main(){
         }
     }
     }
-
     return 0;
     }
