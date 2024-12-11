@@ -28,7 +28,7 @@ char menu_internal(){
     cout<<"                                           Share Account No.(Enter:Q)                        View Statment (Enter:V)"<<endl<<endl;
     cout<<"                                       Send Money (Enter:S)                                     Bills & Top up (Enter:K)"<<endl<<endl;
     cout<<"                                       Debit Card (Enter:X)                                     Zakat & Sadkat (Enter:Z)"<<endl<<endl;
-    cout<<"                                       Tax calculatore(Enter:T)                                 Emi Culculator (Enter:L)"<<endl<<endl;
+    cout<<"                                       Tax calculator(Enter:T)                                  Emi Culculator (Enter:L)"<<endl<<endl;
     cout<<"                                                                      Dicounts (Enter:I)"<<endl<<endl;
     cout<<"                                                                      Feedback (Enter:F)"<<endl<<endl;
     cout<<"                                                                      Exit (Enter:E)"<<endl<<endl;
@@ -148,8 +148,33 @@ void depositing(){
              cout<<"Thanks For Depositing <3 "<<endl;
 
 }
-void withdraw(){
-
+int withdraw(int withdrawal,int s_account_num){
+            string line;
+            int balance;
+             fstream my_file1;
+             my_file1.open(filepath1 , ios::in);
+             if(!my_file1.is_open()){
+                cout<<"Failed to Open File "<<endl;
+             }
+            while(getline(my_file1,line)){
+            }
+            balance = stoi(line);
+            if (withdrawal>balance){
+                cout<<endl<< " INSUFFICIENT FUNDS "<<endl;
+                return 0;
+            }
+             my_file1.close();
+             my_file1.open(filepath1 , ios::out);
+              if(!my_file1.is_open()){
+                cout<<"Failed to Open File "<<endl;
+             }
+            balance = stoi(line);
+            balance = balance - withdrawal;
+            cin.ignore();
+            my_file1<<balance;
+             my_file1.close();
+            cout<<endl<<"Transaction Successfully done ." << withdrawal <<" Rps has beed Debited from your Account . "<<endl;
+            return 0;
 }
 void bills_top_ups_payment(){
 
@@ -181,7 +206,171 @@ void zakat_and_sadqat(){
 
 }
 void discounts(){
-    
+    char city;
+    char catagory;
+    string line;
+    cout<<"Lahore (Enter L)            Karachi(Enter K)            Isalamabad(Enter I)"<<endl;
+    cout<<endl<<"Enter which city You want to choose : ";
+    cin>>city;
+    cout<<endl;
+    switch(city){
+        case 'L' :{
+    cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;
+    cout<<endl<<"Enter which catagory You want to choose :";
+    cin>>catagory;
+            switch(catagory){
+        case 'L' :{
+            fstream lifel;
+            lifel.open("llifestyle.txt",ios::out);
+            if(!lifel.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+                lifel.close();
+            lifel.open("llifestyle.txt",ios::in);
+            while(getline(lifel,line)){
+                cout<<line;
+            }
+            lifel.close();
+            break;
+        }
+        case 'C' :{
+            fstream carel;
+            carel.open("carel.txt",ios::in);
+            if(!carel.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+                carel.close();
+            carel.open("carel.txt",ios::out);
+            while(getline(carel,line)){
+                cout<<line;
+            }
+            carel.close();
+            break;
+        }
+        case 'F' :{
+            fstream foodl;
+            foodl.open("foodl.txt",ios::out);
+            if(!foodl.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+                foodl.close();
+            foodl.open("foodl.txt",ios::in);
+            while(getline(foodl,line)){
+                cout<<line;
+            }
+            foodl.close();
+            break;
+        }
+    }
+            break;
+        }
+        case 'K' :{
+        cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;
+    cout<<endl<<"Enter which catagory You want to choose :";
+    cin>>catagory;
+            switch(catagory){
+        case 'L' :{
+            fstream lifek;
+            lifek.open("klifestyle.txt",ios::out);
+            if(!lifek.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+                lifek.close();
+            lifek.open("klifestyle.txt",ios::in);
+            if(!lifek.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+            while(getline(lifek,line)){
+                cout<<line;
+            }
+            lifek.close();
+            break;
+        }
+        case 'C' :{
+            fstream carek;
+            carek.open("carek.txt",ios::out);
+            if(!carek.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+                carek.close();
+            carek.open("carek.txt",ios::in);
+            while(getline(carek,line)){
+                cout<<line;
+            }
+            carek.close();
+            break;
+        }
+        case 'F' :{
+            fstream foodk;
+            foodk.open("foodk.txt",ios::out);
+            if(!foodk.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+                foodk.close();
+            foodk.open("foodk.txt",ios::in);
+            while(getline(foodk,line)){
+                cout<<line;
+            }
+            foodk.close();
+            break;
+        }
+    }
+            break;
+        }
+        case 'I' :{
+         cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;
+    cout<<endl<<"Enter which catagory You want to choose :";
+    cin>>catagory;
+            switch(catagory){
+        case 'L' :{
+            fstream lifeI;
+            lifeI.open("Ilifestyle.txt",ios::out);
+            if(!lifeI.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+                lifeI.close();
+            lifeI.open("Ilifestyle.txt",ios::in);
+            if(!lifeI.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+            while(getline(lifeI,line)){
+                cout<<line;
+            }
+            lifeI.close();
+            break;
+        }
+        case 'C' :{
+            fstream careI;
+            careI.open("careI.txt",ios::out);
+            if(!careI.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+            careI.close();
+            careI.open("careI.txt",ios::in);
+            while(getline(careI,line)){
+                cout<<line;
+            }
+            careI.close();
+            break;
+        }
+        case 'F' :{
+            fstream foodI;
+            foodI.open("foodI.txt",ios::out);
+            if(!foodI.is_open()){
+                cout<<"Failed to Open File "<<endl;
+                }
+            foodI.close();
+            foodI.open("foodI.txt",ios::in);
+            while(getline(foodI,line)){
+                cout<<line;
+            }
+            foodI.close();
+            break;
+        }
+    }
+            break;
+        }
+    }
 }
 void share_account_number(){
 
@@ -302,14 +491,14 @@ int main(){
              user_data=login();
              filepath1=(user_data[0] +"_current_Balance.txt");
              fstream my_file1;
-             my_file1.open(filepath1);
+             my_file1.open(filepath1,ios::out);
              if(!my_file1.is_open()){
                 cout<<"Failed to Open File "<<endl;
              }
              my_file1.close();
              filepath2=(user_data[0] +"_balance_History.txt");
              fstream my_file2;
-             my_file2.open(filepath2);
+             my_file2.open(filepath2,ios::out);
              if(!my_file2.is_open()){
                 cout<<"Failed to Open File "<<endl;
              }
@@ -336,6 +525,17 @@ int main(){
         case 'D' :{
                 depositing();
             }
+        case 'S' :{
+            int withdrawal ,s_account_num;
+            cout<<"Enter The amount that you want to Send : ";
+            cin>>withdrawal;
+            cout<<endl;
+            cout<<"Enter 11 digits Account Number : ";
+            cin>>s_account_num;
+
+            withdraw(withdrawal,s_account_num);
+            break;
+        }
         case 'B':{
             show_balance();
         }
