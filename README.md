@@ -25,7 +25,7 @@ char menu_internal(){
     cout<<"                                                                    Deposit Money (Enter : D)"<<endl<<endl;
     cout<<"                                           Share Account No.(Enter:Q)                        View Statment (Enter:V)"<<endl<<endl;
     cout<<"                                       Send Money (Enter:S)                                     Bills & Top up (Enter:K)"<<endl<<endl;
-    cout<<"                                       Debit Card (Enter:X)                                     Zakat & Sadkat (Enter:Z)"<<endl<<endl;
+    cout<<"                                       Debit Card (Enter:X)                                     Charity (Enter:C)"<<endl<<endl;
     cout<<"                                       Tax calculator(Enter:T)                                  Emi Culculator (Enter:L)"<<endl<<endl;
     cout<<"                                                                      Dicounts (Enter:I)"<<endl<<endl;
     cout<<"                                                                      Feedback (Enter:F)"<<endl<<endl;
@@ -146,7 +146,35 @@ void depositing(){
              cout<<"Thanks For Depositing <3 "<<endl;
 
 }
-int withdraw(int withdrawal,int s_account_num){
+int withdraw(float withdrawal,string* comp_info){
+            string line;
+            int balance;
+             fstream my_file1;
+             my_file1.open(filepath1 , ios::in);
+             if(!my_file1.is_open()){
+                cout<<"Failed to Open File "<<endl;
+             }
+            while(getline(my_file1,line)){
+            }
+            balance = stoi(line);
+            if (withdrawal>balance){
+                cout<<endl<< " INSUFFICIENT FUNDS "<<endl;
+                return 0;
+            }
+             my_file1.close();
+             my_file1.open(filepath1 , ios::out);
+              if(!my_file1.is_open()){
+                cout<<"Failed to Open File "<<endl;
+             }
+            balance = stoi(line);
+            balance = balance - withdrawal;
+            cin.ignore();
+            my_file1<<balance;
+             my_file1.close();
+            cout<<endl<<"Transaction Successfully done ." << withdrawal <<" Rps has beed Debited from your Account . "<<endl;
+            return 0;
+}
+int withdraw(int withdrawal,string s_account_num){
             string line;
             int balance;
              fstream my_file1;
@@ -175,24 +203,40 @@ int withdraw(int withdrawal,int s_account_num){
             return 0;
 }
 void bills_top_ups_payment(){
+    int company;
+    float payment;
+    string bill[2][14]={{"LESCO", "IESCO", "FESCO", "GEPCO", "HESCO"," MEPCO", "PESCO", "QESCO"," SEPCO", "TESCO", "SNGPL", "SSGC", "PTCL"," WASA"},{"12345678901234", "23456789012345", "34567890123456", "45678901234567", "56789012345678", "67890123456789", "78901234567890", "89012345678901", "90123456789012", "01234567890123", "11234567890123", "21234567890123", "31234567890123", "41234567890123"}};
+    ask:
+    cout<<endl<<"LESCO (Lahore Electric Supply Company)        (Enter : 0) \nIESCO (Islamabad Electric Supply Company)        (Enter : 1) \n FESCO (Faisalabad Electric Supply Company)        (Enter : 2) \nGEPCO (Gujranwala Electric Power Company)        (Enter : 3) \nHESCO (Hyderabad Electric Supply Company)        (Enter : 4) \nMEPCO (Multan Electric Power Company)        (Enter : 5) \nPESCO (Peshawar Electric Supply Company)        (Enter : 6) \nQESCO (Quetta Electric Supply Company)        (Enter : 7) \nSEPCO (Sukkur Electric Power Company)        (Enter : 8) \nTESCO (Tribal Electric Supply Company)        (Enter : 9) \nSNGPL (Sui Northern Gas Pipelines Limited)        (Enter : 10) \nSSGC (Sui Southern Gas Company)        (Enter : 11)  \nPTCL (Pakistan Telecommunication Company Limited)        (Enter : 12) \nWASA (Water and Sanitation Agency)        (Enter : 13) "<<endl<<endl;
+    cout<<"Enter a number for any selection of options : ";
+    cin>>company;
+    cout<<endl<<"Enter the amount you want to pay : ";
+    cin>>payment;
+    string *comp_info=bill[2];
+    if(company<=14 && company>=0){
+        withdraw(payment,comp_info);
+    }
+    else{
+        cout<<"OPTION SELECTECTED IS INVALID .PLEASE TRY AGAIN \n";
+        goto ask;
+    }
 
 }
 void account_past_transaction(){
-
-}
-void addFeedback(string userdata[]){
-    string feedback;
-    fstream feed;
-    feed.open("feedback.txt",ios::app);
-    if(feed.is_open())
-    {
-        cout<<"Enter your feedaback:"<<endl;
-        cin.ignore();
-        getline(cin,feedback);
-        feed<<"Feedback:"<<feedback<<endl;
-        feed.close();
+    int count;
+    string line;
+    fstream my_file1;
+    my_file1.open(filepath2,ios::in);
+    while(my_file1){
+        getline(my_file1,line);
+        count++;
+    }
+    my_file1.close();
+    if(count==0){
+        cout<<"NO TRANSACTIONS HAVE BEEN MADE TILL NOW <3";
     }
 }
+
 void show_balance(){
     string line;
     int count=0;
@@ -212,7 +256,60 @@ void show_balance(){
 void password_change(){
 
 }
-void zakat_and_sadqat(){
+void zakat(){
+    string account="BANK ZAKAT ACCOUNT";
+    cout<<endl<<"FOR ZAKAT 2.5 PERCENT AMOUNT FROM YOUR MONEY IS BEING DEDUCTED ."<<endl;
+    string line;
+            int balance;
+             fstream my_file1;
+             my_file1.open(filepath1 , ios::in);
+             if(!my_file1.is_open()){
+                cout<<"Failed to Open File "<<endl;
+             }
+            while(getline(my_file1,line)){
+            }
+            balance = stoi(line); 
+            my_file1.close();
+            balance=2.5*balance/100;
+            withdraw(balance,account);
+
+}
+void sadkat(){
+    int company;
+    float payment;
+    string bill[2][9]={{"Edhi Foundation", "Shaukat Khanum Memorial Cancer Hospital", "Saylani Welfare International Trust", "Akhuwat Foundation", "Indus Hospital", "The Citizens Foundation (TCF)", "JDC Foundation Pakistan", "Transparent Hands", "Chhipa Welfare Association"},{"0014-7900-0013-01", "01-1423496-01", "0110-0101-6560-3303", "2010-0158-6180-001", "0017-7903-0013-02", "0012-0002-0030-24", "0564-0011-0058-8803", "0185-0101-1962-2903", "0012-1111-0015-03"}};
+    ask:
+    cout<<endl<<"Edhi Foundation       (Enter : 0)\n Shaukat Khanum Memorial Cancer Hospital     (Enter : 1)\n Saylani Welfare International Trust      (Enter : 2)\n Akhuwat Foundation      (Enter : 3)\n Indus Hospital      (Enter : 4)\n The Citizens Foundation (TCF)      (Enter : 5)\n JDC Foundation Pakistan      (Enter : 6)\n Transparent Hands      (Enter : 7)\n Chhipa Welfare Association      (Enter : 8)\n Agha Khan Development Network (AKDN)      (Enter : 9)"<<endl;
+    cout<<"Enter Option you want to choose : ";
+    cin>>company;
+    cout<<endl<<"Enter the amount you want to give as sadkat: ";
+    cin>>payment;
+    string *comp_info=bill[2];
+    if(company<=14 && company>=0){
+        withdraw(payment,comp_info);
+    }
+    else{
+        cout<<"OPTION SELECTECTED IS INVALID .PLEASE TRY AGAIN \n";
+        goto ask;
+    }
+
+}
+void charity(){
+    char option;
+    ask:
+    cout<<endl<<"FOR ZAKAT (ENTER : Z)              FOR SADKAT (ENTER : S)"<<endl;
+    cout<<"Enter : ";
+    cin>>option;
+    if(option=='Z'){
+        zakat();
+    }
+    else if(option=='S'){
+        sadkat();
+    }
+    else{
+        cout<<endl<<"INVALID ENTRY . PLEASE TRY AGAIN <3"<<endl;
+        goto ask;
+    }
 
 }
 void discounts(){
@@ -225,32 +322,32 @@ void discounts(){
     cout<<endl;
     switch(city){
         case 'L' :{
-    cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter )"<<endl;
+    cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;
     cout<<endl<<"Enter which catagory You want to choose :";
     cin>>catagory;
             switch(catagory){
         case 'L' :{
             fstream lifel;
-            lifel.open("llifestyle.txt",ios::app);
+            lifel.open("llifestyle.txt",ios::out);
             if(!lifel.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
                 lifel.close();
             lifel.open("llifestyle.txt",ios::in);
             while(getline(lifel,line)){
-                cout<<line<<endl;
+                cout<<line;
             }
             lifel.close();
             break;
         }
         case 'C' :{
             fstream carel;
-            carel.open("lcare.txt",ios::out);
+            carel.open("carel.txt",ios::in);
             if(!carel.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
                 carel.close();
-            carel.open("lcare.txt",ios::in);
+            carel.open("carel.txt",ios::out);
             while(getline(carel,line)){
                 cout<<line;
             }
@@ -275,7 +372,7 @@ void discounts(){
             break;
         }
         case 'K' :{
-        cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;   
+        cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;
     cout<<endl<<"Enter which catagory You want to choose :";
     cin>>catagory;
             switch(catagory){
@@ -329,7 +426,6 @@ void discounts(){
         }
         case 'I' :{
          cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;
-         cout<<"          Student Discount(Enter S)           Happy Hour Discount(Enter H)"<<endl;
     cout<<endl<<"Enter which catagory You want to choose :";
     cin>>catagory;
             switch(catagory){
@@ -366,7 +462,7 @@ void discounts(){
         }
         case 'F' :{
             fstream foodI;
-            foodI.open("food_Isl.txt",ios::out);
+            foodI.open("foodI.txt",ios::out);
             if(!foodI.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
@@ -502,14 +598,14 @@ int main(){
              user_data=login();
              filepath1=(user_data[0] +"_current_Balance.txt");
              fstream my_file1;
-             my_file1.open(filepath1,ios::out);
+             my_file1.open(filepath1,ios::app);
              if(!my_file1.is_open()){
                 cout<<"Failed to Open File "<<endl;
              }
              my_file1.close();
              filepath2=(user_data[0] +"_balance_History.txt");
              fstream my_file2;
-             my_file2.open(filepath2,ios::out);
+             my_file2.open(filepath2,ios::app);
              if(!my_file2.is_open()){
                 cout<<"Failed to Open File "<<endl;
              }
@@ -529,9 +625,6 @@ int main(){
     }while(close_external==true);
     char options_internal;
     bool closeinternal=true;
-    string userdata[2];
-    userdata[0]=user_data[0];
-    userdata[1]=user_data[1];
     while(closeinternal==true){
         options_internal=menu_internal();
         switch (options_internal)
@@ -541,7 +634,8 @@ int main(){
                 break;
             }
         case 'S' :{
-            int withdrawal ,s_account_num;
+            int withdrawal ;
+            string s_account_num;
             cout<<"Enter The amount that you want to Send : ";
             cin>>withdrawal;
             cout<<endl;
@@ -553,7 +647,6 @@ int main(){
         }
         case 'B':{
             show_balance();
-            break;
         }
          case 'Q':{
                 share_account_number();
@@ -563,6 +656,15 @@ int main(){
                 account_past_transaction();
                 break;
             }
+            case 'K':{
+                bills_top_ups_payment();
+                break;
+            }
+            case 'C':{
+                charity();
+                break;
+            }
+
         case 'T':{
             tax_calculator();
             break;
@@ -575,15 +677,9 @@ int main(){
             discounts();
             break;
         }
-        case 'F':{
-        addFeedback(userdata);
-        break;
-        }
         case 'E':{
         closeinternal=false;
-        break;
         }
-
     }
     }
     return 0;
