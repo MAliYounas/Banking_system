@@ -171,7 +171,7 @@ int withdraw(float withdrawal,string* comp_info){
             cin.ignore();
             my_file1<<balance;
              my_file1.close();
-            cout<<endl<<"Transaction Successfully done ." << withdrawal <<" Rps has beed Debited from your Account . "<<endl;
+            cout<<endl<<"Transaction Successfully done .\n" << withdrawal <<" Rps has beed Debited from your Account . "<<endl;
             return 0;
 }
 int withdraw(int withdrawal,string s_account_num){
@@ -199,7 +199,7 @@ int withdraw(int withdrawal,string s_account_num){
             cin.ignore();
             my_file1<<balance;
              my_file1.close();
-            cout<<endl<<"Transaction Successfully done ." << withdrawal <<" Rps has beed Debited from your Account . "<<endl;
+            cout<<endl<<"Transaction Successfully done .\n" << withdrawal <<" Rps has beed Debited from your Account . "<<endl;
             return 0;
 }
 void bills_top_ups_payment(){
@@ -583,9 +583,6 @@ switch(loan_type){
     return;
     }
 
-void apply_for_loan(){
-
-}
 int main(){
     bool  close_external=true;
     array<string, 2> user_data;
@@ -679,6 +676,7 @@ int main(){
         }
         case 'E':{
         closeinternal=false;
+        break;
         }
     }
     }
