@@ -1,5 +1,3 @@
-# Banking_system
-This is a user friendly banking system to make  banking services easier.
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -182,7 +180,19 @@ void bills_top_ups_payment(){
 void account_past_transaction(){
 
 }
-
+void addFeedback(string userdata[]){
+    string feedback;
+    fstream feed;
+    feed.open("feedback.txt",ios::app);
+    if(feed.is_open())
+    {
+        cout<<"Enter your feedaback:"<<endl;
+        cin.ignore();
+        getline(cin,feedback);
+        feed<<"Feedback:"<<feedback<<endl;
+        feed.close();
+    }
+}
 void show_balance(){
     string line;
     int count=0;
@@ -215,32 +225,32 @@ void discounts(){
     cout<<endl;
     switch(city){
         case 'L' :{
-    cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;
+    cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter )"<<endl;
     cout<<endl<<"Enter which catagory You want to choose :";
     cin>>catagory;
             switch(catagory){
         case 'L' :{
             fstream lifel;
-            lifel.open("llifestyle.txt",ios::out);
+            lifel.open("llifestyle.txt",ios::app);
             if(!lifel.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
                 lifel.close();
             lifel.open("llifestyle.txt",ios::in);
             while(getline(lifel,line)){
-                cout<<line;
+                cout<<line<<endl;
             }
             lifel.close();
             break;
         }
         case 'C' :{
             fstream carel;
-            carel.open("carel.txt",ios::in);
+            carel.open("lcare.txt",ios::out);
             if(!carel.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
                 carel.close();
-            carel.open("carel.txt",ios::out);
+            carel.open("lcare.txt",ios::in);
             while(getline(carel,line)){
                 cout<<line;
             }
@@ -265,7 +275,7 @@ void discounts(){
             break;
         }
         case 'K' :{
-        cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;
+        cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;   
     cout<<endl<<"Enter which catagory You want to choose :";
     cin>>catagory;
             switch(catagory){
@@ -319,6 +329,7 @@ void discounts(){
         }
         case 'I' :{
          cout<<"\nLife style (Enter L)        Health Care (Enter C)                 Food (Enter F)"<<endl;
+         cout<<"          Student Discount(Enter S)           Happy Hour Discount(Enter H)"<<endl;
     cout<<endl<<"Enter which catagory You want to choose :";
     cin>>catagory;
             switch(catagory){
@@ -355,7 +366,7 @@ void discounts(){
         }
         case 'F' :{
             fstream foodI;
-            foodI.open("foodI.txt",ios::out);
+            foodI.open("food_Isl.txt",ios::out);
             if(!foodI.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
@@ -518,12 +529,16 @@ int main(){
     }while(close_external==true);
     char options_internal;
     bool closeinternal=true;
+    string userdata[2];
+    userdata[0]=user_data[0];
+    userdata[1]=user_data[1];
     while(closeinternal==true){
         options_internal=menu_internal();
         switch (options_internal)
         {
         case 'D' :{
                 depositing();
+                break;
             }
         case 'S' :{
             int withdrawal ,s_account_num;
@@ -538,6 +553,7 @@ int main(){
         }
         case 'B':{
             show_balance();
+            break;
         }
          case 'Q':{
                 share_account_number();
@@ -559,9 +575,15 @@ int main(){
             discounts();
             break;
         }
+        case 'F':{
+        addFeedback(userdata);
+        break;
+        }
         case 'E':{
         closeinternal=false;
+        break;
         }
+
     }
     }
     return 0;
