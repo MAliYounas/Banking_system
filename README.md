@@ -3,6 +3,7 @@
 #include<string>
 #include<cmath>
 #include<iomanip>
+#include<ctime>
 using namespace std;
 string filepath1="initial";
 string filepath2="initial";
@@ -143,11 +144,17 @@ void depositing(){
             my_file1.open(filepath1,ios::out);
             my_file1<<amount_depositing;
              my_file1.close();
+             time_t ct=time(0);
+            string current_time= ctime(&ct);
+             fstream my_file2;
+             my_file2.open(filepath2,ios::app);
+             my_file2<<"Amount Deposited : "<<amount_depositing<<"rps       Time : "<<current_time<<endl;
+             my_file2.close();
+
              cout<<"Thanks For Depositing <3 "<<endl;
 
 }
 int withdraw(float withdrawal,string bill[][14],int company){
-            cout<<"company name :"<<bill[0][company] <<endl;
             string line;
             int balance;
              fstream my_file1;
@@ -172,6 +179,12 @@ int withdraw(float withdrawal,string bill[][14],int company){
             cin.ignore();
             my_file1<<balance;
              my_file1.close();
+             time_t ct=time(0);
+            string current_time= ctime(&ct);
+             fstream my_file2;
+             my_file2.open(filepath2,ios::app);
+             my_file2<<"Amount Credited : "<<withdrawal<<"rps   "<<"Transfered To : "<<bill[0][company]<<"    Account no.  "<< bill[1][company]<<"   Time : "<<current_time<<endl;
+             my_file2.close();
             cout<<endl<<"Transaction Successfully done .\n" << withdrawal <<" Rps has beed Debited from your Account . "<<endl;
             return 0;
 }
@@ -200,6 +213,12 @@ int withdraw(int withdrawal,string s_account_num){
             cin.ignore();
             my_file1<<balance;
              my_file1.close();
+              time_t ct=time(0);
+            string current_time= ctime(&ct);
+             fstream my_file2;
+             my_file2.open(filepath2,ios::app);
+             my_file2<<"Amount Credited : "<<withdrawal<<"rps   "<<"Transfered To Account no. : "<<s_account_num<<"   Time : "<<current_time<<endl;
+             my_file2.close();
             cout<<endl<<"Transaction Successfully done .\n" << withdrawal <<" Rps has beed Debited from your Account . "<<endl;
             return 0;
 }
@@ -229,6 +248,7 @@ void account_past_transaction(){
     my_file1.open(filepath2,ios::in);
     while(my_file1){
         getline(my_file1,line);
+        cout<<line<<endl;
         count++;
     }
     my_file1.close();
@@ -482,12 +502,16 @@ void share_account_number(){
 
 }
 void apply_for_debit_card(string userdata[2]){
-    ;
+    string bill [2][14]={{"Bank"},{"Debit card charges"}};
+        cout<<endl<<"Charges To Apply For Debit card are 500 rps.\n";
         fstream my_file1;
         my_file1.open("debit_card_apply.txt",ios::app);
         my_file1<<"USERNAME = "<<userdata[0]<<endl;
         my_file1.close();
+        withdraw(500,bill,0);
         cout<<endl<<"THANKS FOR APPLYING FOR DEBIT CARD.\nREALLY APPRECIATE THAT. <3."<<endl;
+        
+        
 }
 
 void tax_calculator(){
@@ -587,6 +611,7 @@ switch(loan_type){
 void feedback(string userdata[2]){
     string line;
         cout<<endl<<"ENTER FEEDBACK : ";
+        cin.ignore();
         getline(cin,line);
         fstream my_file1;
         my_file1.open("feedback.txt",ios::app);
@@ -647,13 +672,12 @@ int main(){
             }
         case 'S' :{
             int withdrawal ;
-            string s_account_num;
+            string  s_account_num;
             cout<<"Enter The amount that you want to Send : ";
             cin>>withdrawal;
             cout<<endl;
-            cout<<"Enter 11 digits Account Number : ";
+            cout<<"Enter Account Number You Want to Send Money To : ";
             cin>>s_account_num;
-
             withdraw(withdrawal,s_account_num);
             break;
         }
