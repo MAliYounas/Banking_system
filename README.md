@@ -25,7 +25,7 @@ char menu_internal(){
     cout<<"                                                                    Deposit Money (Enter : D)"<<endl<<endl;
     cout<<"                                           Share Account No.(Enter:Q)                        View Statment (Enter:V)"<<endl<<endl;
     cout<<"                                       Send Money (Enter:S)                                     Bills & Top up (Enter:K)"<<endl<<endl;
-    cout<<"                                       Debit Card (Enter:X)                                     Charity (Enter:C)"<<endl<<endl;
+    cout<<"                                       Debit Card Apply (Enter:X)                                     Charity (Enter:C)"<<endl<<endl;
     cout<<"                                       Tax calculator(Enter:T)                                  Emi Culculator (Enter:L)"<<endl<<endl;
     cout<<"                                                                      Dicounts (Enter:I)"<<endl<<endl;
     cout<<"                                                                      Feedback (Enter:F)"<<endl<<endl;
@@ -146,7 +146,8 @@ void depositing(){
              cout<<"Thanks For Depositing <3 "<<endl;
 
 }
-int withdraw(float withdrawal,string* comp_info){
+int withdraw(float withdrawal,string bill[][14],int company){
+            cout<<"company name :"<<bill[0][company] <<endl;
             string line;
             int balance;
              fstream my_file1;
@@ -212,9 +213,8 @@ void bills_top_ups_payment(){
     cin>>company;
     cout<<endl<<"Enter the amount you want to pay : ";
     cin>>payment;
-    string *comp_info=bill[2];
     if(company<=14 && company>=0){
-        withdraw(payment,comp_info);
+        withdraw(payment,bill,company);
     }
     else{
         cout<<"OPTION SELECTECTED IS INVALID .PLEASE TRY AGAIN \n";
@@ -277,16 +277,15 @@ void zakat(){
 void sadkat(){
     int company;
     float payment;
-    string bill[2][9]={{"Edhi Foundation", "Shaukat Khanum Memorial Cancer Hospital", "Saylani Welfare International Trust", "Akhuwat Foundation", "Indus Hospital", "The Citizens Foundation (TCF)", "JDC Foundation Pakistan", "Transparent Hands", "Chhipa Welfare Association"},{"0014-7900-0013-01", "01-1423496-01", "0110-0101-6560-3303", "2010-0158-6180-001", "0017-7903-0013-02", "0012-0002-0030-24", "0564-0011-0058-8803", "0185-0101-1962-2903", "0012-1111-0015-03"}};
+    string bill[2][14]={{"Edhi Foundation", "Shaukat Khanum Memorial Cancer Hospital", "Saylani Welfare International Trust", "Akhuwat Foundation", "Indus Hospital", "The Citizens Foundation (TCF)", "JDC Foundation Pakistan", "Transparent Hands", "Chhipa Welfare Association"},{"0014-7900-0013-01", "01-1423496-01", "0110-0101-6560-3303", "2010-0158-6180-001", "0017-7903-0013-02", "0012-0002-0030-24", "0564-0011-0058-8803", "0185-0101-1962-2903", "0012-1111-0015-03"}};
     ask:
     cout<<endl<<"Edhi Foundation       (Enter : 0)\n Shaukat Khanum Memorial Cancer Hospital     (Enter : 1)\n Saylani Welfare International Trust      (Enter : 2)\n Akhuwat Foundation      (Enter : 3)\n Indus Hospital      (Enter : 4)\n The Citizens Foundation (TCF)      (Enter : 5)\n JDC Foundation Pakistan      (Enter : 6)\n Transparent Hands      (Enter : 7)\n Chhipa Welfare Association      (Enter : 8)\n Agha Khan Development Network (AKDN)      (Enter : 9)"<<endl;
     cout<<"Enter Option you want to choose : ";
     cin>>company;
     cout<<endl<<"Enter the amount you want to give as sadkat: ";
     cin>>payment;
-    string *comp_info=bill[2];
-    if(company<=14 && company>=0){
-        withdraw(payment,comp_info);
+    if(company<=9 && company>=0){
+        withdraw(payment,bill,company);
     }
     else{
         cout<<"OPTION SELECTECTED IS INVALID .PLEASE TRY AGAIN \n";
@@ -328,7 +327,7 @@ void discounts(){
             switch(catagory){
         case 'L' :{
             fstream lifel;
-            lifel.open("llifestyle.txt",ios::out);
+            lifel.open("llifestyle.txt",ios::app);
             if(!lifel.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
@@ -342,12 +341,12 @@ void discounts(){
         }
         case 'C' :{
             fstream carel;
-            carel.open("carel.txt",ios::in);
+            carel.open("carel.txt",ios::app);
             if(!carel.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
                 carel.close();
-            carel.open("carel.txt",ios::out);
+            carel.open("carel.txt",ios::in);
             while(getline(carel,line)){
                 cout<<line;
             }
@@ -356,7 +355,7 @@ void discounts(){
         }
         case 'F' :{
             fstream foodl;
-            foodl.open("foodl.txt",ios::out);
+            foodl.open("foodl.txt",ios::app);
             if(!foodl.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
@@ -378,7 +377,7 @@ void discounts(){
             switch(catagory){
         case 'L' :{
             fstream lifek;
-            lifek.open("klifestyle.txt",ios::out);
+            lifek.open("klifestyle.txt",ios::app);
             if(!lifek.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
@@ -395,7 +394,7 @@ void discounts(){
         }
         case 'C' :{
             fstream carek;
-            carek.open("carek.txt",ios::out);
+            carek.open("carek.txt",ios::app);
             if(!carek.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
@@ -409,7 +408,7 @@ void discounts(){
         }
         case 'F' :{
             fstream foodk;
-            foodk.open("foodk.txt",ios::out);
+            foodk.open("foodk.txt",ios::app);
             if(!foodk.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
@@ -431,7 +430,7 @@ void discounts(){
             switch(catagory){
         case 'L' :{
             fstream lifeI;
-            lifeI.open("Ilifestyle.txt",ios::out);
+            lifeI.open("Ilifestyle.txt",ios::app);
             if(!lifeI.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
@@ -448,7 +447,7 @@ void discounts(){
         }
         case 'C' :{
             fstream careI;
-            careI.open("careI.txt",ios::out);
+            careI.open("careI.txt",ios::app);
             if(!careI.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
@@ -462,7 +461,7 @@ void discounts(){
         }
         case 'F' :{
             fstream foodI;
-            foodI.open("foodI.txt",ios::out);
+            foodI.open("foodI.txt",ios::app);
             if(!foodI.is_open()){
                 cout<<"Failed to Open File "<<endl;
                 }
@@ -482,12 +481,15 @@ void discounts(){
 void share_account_number(){
 
 }
-void apply_for_debit_card(){
-
+void apply_for_debit_card(string userdata[2]){
+    ;
+        fstream my_file1;
+        my_file1.open("debit_card_apply.txt",ios::app);
+        my_file1<<"USERNAME = "<<userdata[0]<<endl;
+        my_file1.close();
+        cout<<endl<<"THANKS FOR APPLYING FOR DEBIT CARD.\nREALLY APPRECIATE THAT. <3."<<endl;
 }
-void apply_for_credit_card(){
 
-}
 void tax_calculator(){
     int income;
     float tax;
@@ -582,6 +584,16 @@ switch(loan_type){
 }while(continu=='Y');
     return;
     }
+void feedback(string userdata[2]){
+    string line;
+        cout<<endl<<"ENTER FEEDBACK : ";
+        getline(cin,line);
+        fstream my_file1;
+        my_file1.open("feedback.txt",ios::app);
+        my_file1<<"USERNAME = "<<userdata[0]<<endl<<"FEEDBACK : "<<line<<endl;
+        my_file1.close();
+        cout<<endl<<"THANKS FOR YOUR FEEDBACK.\nREALLY APPRECIATE THAT. <3."<<endl;
+}
 
 int main(){
     bool  close_external=true;
@@ -622,6 +634,9 @@ int main(){
     }while(close_external==true);
     char options_internal;
     bool closeinternal=true;
+    string userdata[2];
+    userdata[0]=user_data[0];
+    userdata[1]=user_data[1];
     while(closeinternal==true){
         options_internal=menu_internal();
         switch (options_internal)
@@ -672,6 +687,14 @@ int main(){
         }
         case 'I':{
             discounts();
+            break;
+        }
+        case 'X':{
+            apply_for_debit_card(userdata);
+            break;
+        }
+        case 'F':{
+            feedback(userdata);
             break;
         }
         case 'E':{
