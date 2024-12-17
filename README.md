@@ -22,16 +22,16 @@ char menu_internal(){
     char option_inter;
     cout<<endl<<endl<<endl;
     cout<<"                                     --------------------------------------------------------------------------------------        "<<endl<<endl;
-    cout<<"                                                                     Show Balance (Enter:B)"<<endl<<endl;
-    cout<<"                                                                    Deposit Money (Enter : D)"<<endl<<endl;
-    cout<<"                                           Share Account No.(Enter:Q)                        View Statment (Enter:V)"<<endl<<endl;
+    cout<<"                                                                Show Balance (Enter:B)"<<endl<<endl;
+    cout<<"                                                                Deposit Money (Enter : D)"<<endl<<endl;
+    cout<<"                                        Account No.(Enter:Q)                                  View Statment (Enter:V)"<<endl<<endl;
     cout<<"                                       Send Money (Enter:S)                                     Bills & Top up (Enter:K)"<<endl<<endl;
     cout<<"                                       Debit Card Apply (Enter:X)                                     Charity (Enter:C)"<<endl<<endl;
     cout<<"                                       Tax calculator(Enter:T)                                  Emi Culculator (Enter:L)"<<endl<<endl;
-    cout<<"                                                                      Dicounts (Enter:I)"<<endl<<endl;
-    cout<<"                                                                      Feedback (Enter:F)"<<endl<<endl;
-    cout<<"                                                                      Change Password (Enter:P)"<<endl<<endl;
-    cout<<"                                                                      Exit (Enter:E)"<<endl<<endl;
+    cout<<"                                                                   Dicounts (Enter:I)"<<endl<<endl;
+    cout<<"                                                                   Feedback (Enter:F)"<<endl<<endl;
+    cout<<"                                                                Change Password (Enter:P)"<<endl<<endl;
+    cout<<"                                                                     Exit (Enter:E)"<<endl<<endl;
     cout<<"                                         Enter what you want to choose :"; cin>>option_inter; cout<<endl<<endl;
     cout<<"                                     --------------------------------------------------------------------------------------        "<<endl<<endl;
     return option_inter;
@@ -42,6 +42,7 @@ array<string, 2> login(){
     string line;
     string user_data[2];
     int count=0;
+    int user_name_position=0;
     ask:
     cout<<"Enter Your Username : ";
     cin>>username;
@@ -55,10 +56,21 @@ array<string, 2> login(){
      while(getline(passw,line)){
         if(username==line){
             count++;
+            goto checked_username;
         }
+        user_name_position++;
+     }
+     checked_username:
+      passw.close();
+     passw.open("passwords_username.txt",ios::in);
+     int password_check=0;
+     while(getline(passw,line)){
         if(password==line ){
+        if(password_check ==(user_name_position+1)){
             count++;
         }
+        }
+        password_check++;
      }
      passw.close();
     if(count<2){
@@ -144,6 +156,7 @@ void depositing(){
     int count=0;
     cout<<"Enter The Amount That You Want to Deposit : ";
     cin>>amount_depositing;
+    int amount_deposited =amount_depositing;
     cout<<endl;
     fstream my_file1;
     my_file1.open(filepath1,ios::in);
@@ -165,7 +178,7 @@ void depositing(){
             string current_time= ctime(&ct);
              fstream my_file2;
              my_file2.open(filepath2,ios::app);
-             my_file2<<"Amount Deposited : "<<amount_depositing<<"rps       Time : "<<current_time<<endl;
+             my_file2<<"Amount Deposited : "<<amount_deposited<<"rps       Time : "<<current_time<<endl;
              my_file2.close();
 
              cout<<"Thanks For Depositing <3 "<<endl;
@@ -551,7 +564,35 @@ void discounts(){
         }
     }
 }
-void share_account_number(){
+void share_account_number(string* userdata){
+    string line;
+    int count=0;
+    int number=0;
+    cout<<"\nYOUR ACCOUNT NO. IS : ";
+    fstream passw;
+    passw.open("passwords_username.txt",ios::in);
+    while(getline(passw,line)){
+        count++;
+        if(line==userdata[1]){
+            goto done;
+        }
+    }
+    done:
+    passw.close();
+    count=count/2;
+    string lline;
+    fstream opening;
+    opening.open("accounts_no.txt",ios::in);
+    while(getline(opening,lline) ){
+        if (number==count-1){
+            goto show_no;
+        }
+            number++;
+    }
+    opening.close();
+    show_no:
+    cout<<lline;
+
     
 }
 void apply_for_debit_card(string userdata[2]){
@@ -622,28 +663,28 @@ char loan_type;
 float emi;
 char continu;
 do{
-cout<<"Enter the total loan that you want : "; cin>>loan; cout<<endl;
-cout<<"For how many years you are getting it : "; cin>>years; cout<<endl;
-cout<<"At what intrest rate are you getting it : ";cin>>intrest;
-cout<<"If EMI is on flat intrest (Enter F) and if on Reducing balance (Enter R) : ";cin>>loan_type; cout<<endl;
+cout<<"Enter the total loan that you want : "; cin>>loan; cout<<endl<<endl;
+cout<<"For how many years you are getting it : "; cin>>years; cout<<endl<<endl;
+cout<<"At what intrest rate are you getting it : ";cin>>intrest;cout<<endl<<endl;
+cout<<"If EMI is on flat intrest (Enter F) and if on Reducing balance (Enter R) : ";cin>>loan_type; cout<<endl<<endl;
 cout<<fixed<<setprecision(3);
 switch(loan_type){
     case 'F':{
         total_intrest=loan*intrest*years;
         emi=(loan+total_intrest)/(years*12);
         total_amount_paid=emi*years*12;
-        cout<<"Total amount that you have to pay during the overal tenure is : "<<total_amount_paid<<" pkr."<<endl;
-        cout<<"Total intrest that you have to pay during the overal tenure is : "<<total_intrest<<" pkr."<<endl;
-        cout<<"Your monthly EMI is going to be : "<<emi<<" pkr."<<endl;
+        cout<<"Total amount that you have to pay during the overal tenure is : "<<total_amount_paid<<" pkr."<<endl<<endl;
+        cout<<"Total intrest that you have to pay during the overal tenure is : "<<total_intrest<<" pkr."<<endl<<endl;
+        cout<<"Your monthly EMI is going to be : "<<emi<<" pkr."<<endl<<endl;
         break;
     }
     case 'R':{
-         emi = (loan * intrest * pow(1 + intrest, years * 12)) / (pow(1 + intrest, years * 12) - 1);
+         emi = (loan * (intrest / 100.0 / 12) * pow(1 + (intrest / 100.0 / 12), years * 12)) / (pow(1 + (intrest / 100.0 / 12), years * 12) - 1);
         total_amount_paid=emi*years*12;
         total_intrest=total_amount_paid-loan;
-         cout<<"Total amount that you have to pay during the overal tenure is : "<<total_amount_paid<<" pkr."<<endl;
-        cout<<"Total intrest that you have to pay during the overal tenure is : "<<total_intrest<<" pkr."<<endl;
-        cout<<"Your monthly EMI is going to be : "<<emi<<" pkr."<<endl;
+        cout<<"Total amount that you have to pay during the overal tenure is : "<<total_amount_paid<<" pkr."<<endl<<endl;
+        cout<<"Total intrest that you have to pay during the overal tenure is : "<<total_intrest<<" pkr."<<endl<<endl;
+        cout<<"Your monthly EMI is going to be : "<<emi<<" pkr."<<endl<<endl;
         break;
     }
         }       
@@ -735,9 +776,10 @@ int main(){
         }
         case 'B':{
             show_balance();
+            break;
         }
          case 'Q':{
-                share_account_number();
+                share_account_number(userdata);
                 break;
             }
          case 'V':{
