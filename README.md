@@ -144,6 +144,7 @@ void depositing(){
     int count=0;
     cout<<"Enter The Amount That You Want to Deposit : ";
     cin>>amount_depositing;
+    int amount_deposited =amount_depositing;
     cout<<endl;
     fstream my_file1;
     my_file1.open(filepath1,ios::in);
@@ -165,7 +166,7 @@ void depositing(){
             string current_time= ctime(&ct);
              fstream my_file2;
              my_file2.open(filepath2,ios::app);
-             my_file2<<"Amount Deposited : "<<amount_depositing<<"rps       Time : "<<current_time<<endl;
+             my_file2<<"Amount Deposited : "<<amount_deposited<<"rps       Time : "<<current_time<<endl;
              my_file2.close();
 
              cout<<"Thanks For Depositing <3 "<<endl;
@@ -650,28 +651,28 @@ char loan_type;
 float emi;
 char continu;
 do{
-cout<<"Enter the total loan that you want : "; cin>>loan; cout<<endl;
-cout<<"For how many years you are getting it : "; cin>>years; cout<<endl;
-cout<<"At what intrest rate are you getting it : ";cin>>intrest;
-cout<<"If EMI is on flat intrest (Enter F) and if on Reducing balance (Enter R) : ";cin>>loan_type; cout<<endl;
+cout<<"Enter the total loan that you want : "; cin>>loan; cout<<endl<<endl;
+cout<<"For how many years you are getting it : "; cin>>years; cout<<endl<<endl;
+cout<<"At what intrest rate are you getting it : ";cin>>intrest;cout<<endl<<endl;
+cout<<"If EMI is on flat intrest (Enter F) and if on Reducing balance (Enter R) : ";cin>>loan_type; cout<<endl<<endl;
 cout<<fixed<<setprecision(3);
 switch(loan_type){
     case 'F':{
         total_intrest=loan*intrest*years;
         emi=(loan+total_intrest)/(years*12);
         total_amount_paid=emi*years*12;
-        cout<<"Total amount that you have to pay during the overal tenure is : "<<total_amount_paid<<" pkr."<<endl;
-        cout<<"Total intrest that you have to pay during the overal tenure is : "<<total_intrest<<" pkr."<<endl;
-        cout<<"Your monthly EMI is going to be : "<<emi<<" pkr."<<endl;
+        cout<<"Total amount that you have to pay during the overal tenure is : "<<total_amount_paid<<" pkr."<<endl<<endl;
+        cout<<"Total intrest that you have to pay during the overal tenure is : "<<total_intrest<<" pkr."<<endl<<endl;
+        cout<<"Your monthly EMI is going to be : "<<emi<<" pkr."<<endl<<endl;
         break;
     }
     case 'R':{
-         emi = (loan * intrest * pow(1 + intrest, years * 12)) / (pow(1 + intrest, years * 12) - 1);
+         emi = (loan * (intrest / 100.0 / 12) * pow(1 + (intrest / 100.0 / 12), years * 12)) / (pow(1 + (intrest / 100.0 / 12), years * 12) - 1);
         total_amount_paid=emi*years*12;
         total_intrest=total_amount_paid-loan;
-         cout<<"Total amount that you have to pay during the overal tenure is : "<<total_amount_paid<<" pkr."<<endl;
-        cout<<"Total intrest that you have to pay during the overal tenure is : "<<total_intrest<<" pkr."<<endl;
-        cout<<"Your monthly EMI is going to be : "<<emi<<" pkr."<<endl;
+        cout<<"Total amount that you have to pay during the overal tenure is : "<<total_amount_paid<<" pkr."<<endl<<endl;
+        cout<<"Total intrest that you have to pay during the overal tenure is : "<<total_intrest<<" pkr."<<endl<<endl;
+        cout<<"Your monthly EMI is going to be : "<<emi<<" pkr."<<endl<<endl;
         break;
     }
         }       
