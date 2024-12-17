@@ -1,0 +1,12 @@
+              Karachi Food Discounts 
+
+-------------------------------------------------------------
+RESTAURANT NAME    | PLATINUM CARD   | GOLD CARD   | SILVER CARD
+-------------------------------------------------------------
+Kolachi            | 30% OFF         | 20% OFF     | 10% OFF
+Cafe Flo           | 28% OFF         | 18% OFF     | 8% OFF
+Burger Shack       | 25% OFF         | 15% OFF     | 5% OFF
+McDonald’s         | 20% OFF         | 12% OFF     | 8% OFF
+Xander’s           | 35% OFF         | 25% OFF     | 15% OFF
+-------------------------------------------------------------
+Valid: Online & In-Stores

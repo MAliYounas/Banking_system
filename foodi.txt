@@ -1,0 +1,12 @@
+               Islamabad Food Discounts 
+
+-------------------------------------------------------------
+RESTAURANT NAME    | PLATINUM CARD   | GOLD CARD   | SILVER CARD
+-------------------------------------------------------------
+Monal Islamabad    | 30% OFF         | 20% OFF     | 10% OFF
+Ginyaki            | 25% OFF         | 15% OFF     | 8% OFF
+Savour Foods       | 20% OFF         | 12% OFF     | 5% OFF
+Tehzeeb Bakers     | 18% OFF         | 10% OFF     | 5% OFF
+Tuscany Courtyard  | 35% OFF         | 25% OFF     | 15% OFF
+-------------------------------------------------------------
+Valid: Online & In-Stores

@@ -1,0 +1,12 @@
+              Lahore Food Discounts 
+
+-------------------------------------------------------------
+RESTAURANT NAME    | PLATINUM CARD   | GOLD CARD   | SILVER CARD
+-------------------------------------------------------------
+Monal Lahore       | 20% OFF         | 15% OFF     | 10% OFF
+OPTP               | 25% OFF         | 20% OFF     | 10% OFF
+Bundu Khan         | 30% OFF         | 18% OFF     | 12% OFF
+Hardee’s           | 15% OFF         | 10% OFF     | 5% OFF
+Salt'n Pepper      | 28% OFF         | 18% OFF     | 10% OFF
+-------------------------------------------------------------
+Valid: Online & In-Stores

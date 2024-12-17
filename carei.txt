@@ -1,0 +1,11 @@
+              Islamabad Medical Care Discounts 
+
+-------------------------------------------------------------
+HOSPITAL NAME      | PLATINUM CARD   | GOLD CARD   | SILVER CARD
+-------------------------------------------------------------
+Maroof Hospital    | 35% OFF         | 25% OFF     | 15% OFF
+Shifa International| 30% OFF         | 20% OFF     | 10% OFF
+Quaid-e-Azam Hosp. | 28% OFF         | 18% OFF     | 8% OFF
+PIMS Hospital      | 25% OFF         | 15% OFF     | 5% OFF
+-------------------------------------------------------------
+Valid: In-Stores Only
