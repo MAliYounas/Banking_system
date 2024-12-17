@@ -570,10 +570,14 @@ void share_account_number(string* userdata){
     string lline;
     fstream opening;
     opening.open("accounts_no.txt",ios::in);
-    while(getline(opening,lline) && number<=count ){
+    while(getline(opening,lline) ){
+        if (number==count-1){
+            goto show_no;
+        }
             number++;
     }
     opening.close();
+    show_no:
     cout<<lline;
 
     
@@ -759,6 +763,7 @@ int main(){
         }
         case 'B':{
             show_balance();
+            break;
         }
          case 'Q':{
                 share_account_number(userdata);
