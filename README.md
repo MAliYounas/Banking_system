@@ -22,15 +22,16 @@ char menu_internal(){
     char option_inter;
     cout<<endl<<endl<<endl;
     cout<<"                                     --------------------------------------------------------------------------------------        "<<endl<<endl;
-    cout<<"                                                                     Show Balance (Enter:B)"<<endl<<endl;
-    cout<<"                                                                    Deposit Money (Enter : D)"<<endl<<endl;
-    cout<<"                                           Share Account No.(Enter:Q)                        View Statment (Enter:V)"<<endl<<endl;
+    cout<<"                                                                Show Balance (Enter:B)"<<endl<<endl;
+    cout<<"                                                                Deposit Money (Enter : D)"<<endl<<endl;
+    cout<<"                                        Account No.(Enter:Q)                                  View Statment (Enter:V)"<<endl<<endl;
     cout<<"                                       Send Money (Enter:S)                                     Bills & Top up (Enter:K)"<<endl<<endl;
     cout<<"                                       Debit Card Apply (Enter:X)                                     Charity (Enter:C)"<<endl<<endl;
     cout<<"                                       Tax calculator(Enter:T)                                  Emi Culculator (Enter:L)"<<endl<<endl;
-    cout<<"                                                                      Dicounts (Enter:I)"<<endl<<endl;
-    cout<<"                                                                      Feedback (Enter:F)"<<endl<<endl;
-    cout<<"                                                                      Exit (Enter:E)"<<endl<<endl;
+    cout<<"                                                                   Dicounts (Enter:I)"<<endl<<endl;
+    cout<<"                                                                   Feedback (Enter:F)"<<endl<<endl;
+    cout<<"                                                                Change Password (Enter:P)"<<endl<<endl;
+    cout<<"                                                                     Exit (Enter:E)"<<endl<<endl;
     cout<<"                                         Enter what you want to choose :"; cin>>option_inter; cout<<endl<<endl;
     cout<<"                                     --------------------------------------------------------------------------------------        "<<endl<<endl;
     return option_inter;
@@ -91,6 +92,22 @@ void account_opening_current(){
     cout<<"Password should be of single word if with spaces the first will be considered but rest will be eliminated"<<endl<<endl;
     cout<<"Enter your Password : ";
     cin>>password;
+    string check;
+     fstream passw;
+    passw.open("passwords_username.txt",ios::in);
+    while(getline(passw,check)){
+        if(check==username){
+            passw.close();
+            cout<<"\nUSERNAME ALREADY TAKEN PLEASE TRY ANOTHER ONE . <3"<<endl;
+            goto ask;
+        }
+        if(check==username){
+            passw.close();
+            cout<<"\nPASSWORD ALREADY TAKEN PLEASE TRY ANOTHER ONE . <3"<<endl;
+            goto ask;
+        }
+    }
+    passw.close();
     if (name.empty() || cnic.empty() || password.empty()||username.empty()){
         cout<<"Invalid Data"<<endl;
         goto ask;
@@ -112,7 +129,7 @@ void account_opening_current(){
     opening<<account_no<<endl;
     opening.close();
     cout<<"Your account no. is : "<<(account_no_start+no_of_account)<<endl;
-     fstream passw;
+
      passw.open("passwords_username.txt",ios::out|ios::app);
     passw<<username<<endl;
     passw<<password<<endl;
@@ -256,7 +273,6 @@ void account_past_transaction(){
         cout<<"NO TRANSACTIONS HAVE BEEN MADE TILL NOW <3";
     }
 }
-
 void show_balance(){
     string line;
     int count=0;
@@ -274,6 +290,43 @@ void show_balance(){
              cout<<endl<<endl;
 }
 void password_change(){
+    string previous_password;
+    string new_password;
+    string password_update="";
+    string line;
+    int count=0;
+    ask:
+        cout<<endl<<"FOR CHANGING YOUR PASSWORD PLEASE RE-ENTER YOUR PREVIOUS PASSWORD : ";
+        cin>>previous_password;
+        cout<<endl;
+        cout<<"ENTER YOUR NEW PASSWORD : ";
+        cin>>new_password;
+        fstream passw;
+        passw.open("passwords_username.txt",ios::in);
+        while(getline(passw,line)){
+            if(line==previous_password){
+                cin.ignore();
+                line=new_password;
+                count++;
+            }
+            password_update=password_update+line+"\n";
+        }
+        passw.close();
+        cout<<password_update;
+        passw.open("passwords_username.txt",ios::out);
+        if(!passw){
+            cout<<"\nUNABLE TO OPEN FILE\n";
+        }
+        passw<<password_update;
+        passw.close();
+        if(count>0){
+        cout<<"\nPASSWORD CHANGED SUCCESSFULLY.\nTHANKS FOR PATIENCE.<3\n";
+        }
+        if(count==0){
+        cout<<"\nTHE PASSWORD YOU HAVE ENETERED IS INCORRECT PLEASE TRY AGAIN .\n";
+        goto ask;
+        }
+
 
 }
 void zakat(){
@@ -498,8 +551,32 @@ void discounts(){
         }
     }
 }
-void share_account_number(){
+void share_account_number(string* userdata){
+    string line;
+    int count=0;
+    int number=0;
+    cout<<"\nYOUR ACCOUNT NO. IS : ";
+    fstream passw;
+    passw.open("passwords_username.txt",ios::in);
+    while(getline(passw,line)){
+        count++;
+        if(line==userdata[1]){
+            goto done;
+        }
+    }
+    done:
+    passw.close();
+    count=count/2;
+    string lline;
+    fstream opening;
+    opening.open("accounts_no.txt",ios::in);
+    while(getline(opening,lline) && number<=count ){
+            number++;
+    }
+    opening.close();
+    cout<<lline;
 
+    
 }
 void apply_for_debit_card(string userdata[2]){
     string bill [2][14]={{"Bank"},{"Debit card charges"}};
@@ -513,7 +590,6 @@ void apply_for_debit_card(string userdata[2]){
         
         
 }
-
 void tax_calculator(){
     int income;
     float tax;
@@ -586,7 +662,7 @@ switch(loan_type){
         break;
     }
     case 'R':{
-        emi=(loan*(intrest/12)*pow(1+(intrest/12),years*12))/pow(1+intrest/12,(years*12)-1);
+         emi = (loan * intrest * pow(1 + intrest, years * 12)) / (pow(1 + intrest, years * 12) - 1);
         total_amount_paid=emi*years*12;
         total_intrest=total_amount_paid-loan;
          cout<<"Total amount that you have to pay during the overal tenure is : "<<total_amount_paid<<" pkr."<<endl;
@@ -615,7 +691,7 @@ void feedback(string userdata[2]){
         getline(cin,line);
         fstream my_file1;
         my_file1.open("feedback.txt",ios::app);
-        my_file1<<"USERNAME = "<<userdata[0]<<endl<<"FEEDBACK : "<<line<<endl;
+        my_file1<<"USERNAME = "<<userdata[0]<<"       FEEDBACK : "<<line<<endl;
         my_file1.close();
         cout<<endl<<"THANKS FOR YOUR FEEDBACK.\nREALLY APPRECIATE THAT. <3."<<endl;
 }
@@ -685,7 +761,7 @@ int main(){
             show_balance();
         }
          case 'Q':{
-                share_account_number();
+                share_account_number(userdata);
                 break;
             }
          case 'V':{
@@ -719,6 +795,10 @@ int main(){
         }
         case 'F':{
             feedback(userdata);
+            break;
+        }
+        case 'P':{
+            password_change();
             break;
         }
         case 'E':{
