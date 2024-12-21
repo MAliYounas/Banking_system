@@ -184,6 +184,51 @@ void depositing(){
              cout<<"Thanks For Depositing <3 "<<endl;
 
 }
+void depositing(int amount_depositing,int check_acount_no_position){
+    string line;
+    string username;
+    int count=0;
+    int amount_deposited =amount_depositing;
+    string file_cur;
+    string file_his;
+    fstream user;
+    check_acount_no_position=(check_acount_no_position*2)-2;
+    user.open("passwords_username.txt",ios::in);
+    while(getline(user,line)){
+        if(count==check_acount_no_position){
+                username=line;
+        }
+        count++;
+
+    }
+    count=0;
+    file_cur=username +"_current_Balance.txt";
+    file_his=username+"_balance_History.txt";
+    fstream my_file1;
+    my_file1.open(file_cur,ios::in);
+             if(!my_file1.is_open()){
+                cout<<"Failed to Open File "<<endl;
+             }
+             while(getline(my_file1,line)){
+                count++;
+             }
+             if(count==0){
+                line="0";
+             }
+             my_file1.close();
+            amount_depositing=stoi(line)+amount_depositing;
+            my_file1.open(file_cur,ios::out);
+            my_file1<<amount_depositing;
+             my_file1.close();
+             time_t ct=time(0);
+            string current_time= ctime(&ct);
+             fstream my_file2;
+             my_file2.open(file_his,ios::app);
+             my_file2<<"Amount Deposited : "<<amount_deposited<<"rps BY Account no 111***     Time : "<<current_time<<endl;
+             my_file2.close();
+
+
+}
 int withdraw(float withdrawal,string bill[][14],int company){
             string line;
             int balance;
@@ -249,7 +294,7 @@ int withdraw(int withdrawal,string s_account_num){
              my_file2.open(filepath2,ios::app);
              my_file2<<"Amount Credited : "<<withdrawal<<"rps   "<<"Transfered To Account no. : "<<s_account_num<<"   Time : "<<current_time<<endl;
              my_file2.close();
-            cout<<endl<<"Transaction Successfully done .\n" << withdrawal <<" Rps has beed Debited from your Account . "<<endl;
+            cout<<endl<<"Transaction Successfully done .\n" << withdrawal <<" Rps has beed CREDITED from your Account . "<<endl;
             return 0;
 }
 void bills_top_ups_payment(){
@@ -765,6 +810,9 @@ int main(){
             }
         case 'S' :{
             int withdrawal ;
+            string line;
+            int count=0;
+            int check_acount_no_position;
             string  s_account_num;
             cout<<"Enter The amount that you want to Send : ";
             cin>>withdrawal;
@@ -772,6 +820,21 @@ int main(){
             cout<<"Enter Account Number You Want to Send Money To : ";
             cin>>s_account_num;
             withdraw(withdrawal,s_account_num);
+            fstream openning;
+            openning.open("accounts_no.txt",ios::in);
+            while(getline(openning,line)){
+                check_acount_no_position++;
+                if(line==s_account_num){
+                    count++;
+                    goto done;
+                }
+            }
+            done:
+            openning.close();
+            if(count==1){
+                depositing(withdrawal,check_acount_no_position);
+            }
+
             break;
         }
         case 'B':{
