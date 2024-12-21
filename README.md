@@ -113,7 +113,7 @@ void account_opening_current(){
             cout<<"\nUSERNAME ALREADY TAKEN PLEASE TRY ANOTHER ONE . <3"<<endl;
             goto ask;
         }
-        if(check==username){
+        if(check==password){
             passw.close();
             cout<<"\nPASSWORD ALREADY TAKEN PLEASE TRY ANOTHER ONE . <3"<<endl;
             goto ask;
@@ -242,6 +242,7 @@ int withdraw(float withdrawal,string bill[][14],int company){
             balance = stoi(line);
             if (withdrawal>balance){
                 cout<<endl<< " INSUFFICIENT FUNDS "<<endl;
+                my_file1.close();
                 return 0;
             }
              my_file1.close();
@@ -260,11 +261,11 @@ int withdraw(float withdrawal,string bill[][14],int company){
              my_file2.open(filepath2,ios::app);
              my_file2<<"Amount Credited : "<<withdrawal<<"rps   "<<"Transfered To : "<<bill[0][company]<<"    Account no.  "<< bill[1][company]<<"   Time : "<<current_time<<endl;
              my_file2.close();
-            cout<<endl<<"Transaction Successfully done .\n" << withdrawal <<" Rps has beed Debited from your Account . "<<endl;
+            cout<<endl<<"Transaction Successfully done .\n" << withdrawal <<" Rps has beed Credited from your Account . "<<endl;
             return 0;
 }
 int withdraw(int withdrawal,string s_account_num){
-            string line;
+            string line="0";
             int balance;
              fstream my_file1;
              my_file1.open(filepath1 , ios::in);
@@ -276,6 +277,7 @@ int withdraw(int withdrawal,string s_account_num){
             balance = stoi(line);
             if (withdrawal>balance){
                 cout<<endl<< " INSUFFICIENT FUNDS "<<endl;
+                my_file1.close();
                 return 0;
             }
              my_file1.close();
@@ -295,7 +297,7 @@ int withdraw(int withdrawal,string s_account_num){
              my_file2<<"Amount Credited : "<<withdrawal<<"rps   "<<"Transfered To Account no. : "<<s_account_num<<"   Time : "<<current_time<<endl;
              my_file2.close();
             cout<<endl<<"Transaction Successfully done .\n" << withdrawal <<" Rps has beed CREDITED from your Account . "<<endl;
-            return 0;
+            return 1;
 }
 void bills_top_ups_payment(){
     int company;
@@ -629,13 +631,13 @@ void share_account_number(string* userdata){
     fstream opening;
     opening.open("accounts_no.txt",ios::in);
     while(getline(opening,lline) ){
-        if (number==count-1){
+         number++;
+        if (number==count){
             goto show_no;
         }
-            number++;
     }
-    opening.close();
     show_no:
+    opening.close();
     cout<<lline;
 
     
@@ -814,12 +816,14 @@ int main(){
             int count=0;
             int check_acount_no_position;
             string  s_account_num;
+            int check_valid;
             cout<<"Enter The amount that you want to Send : ";
             cin>>withdrawal;
             cout<<endl;
             cout<<"Enter Account Number You Want to Send Money To : ";
             cin>>s_account_num;
-            withdraw(withdrawal,s_account_num);
+            check_valid = withdraw(withdrawal,s_account_num);
+            if(check_valid==1){
             fstream openning;
             openning.open("accounts_no.txt",ios::in);
             while(getline(openning,line)){
@@ -834,7 +838,7 @@ int main(){
             if(count==1){
                 depositing(withdrawal,check_acount_no_position);
             }
-
+            }
             break;
         }
         case 'B':{
